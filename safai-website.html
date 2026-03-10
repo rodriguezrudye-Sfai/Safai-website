@@ -1,0 +1,951 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Safai AI - Systems Safety Engineering for AI & Autonomous Systems</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            line-height: 1.6;
+            color: #2D2D2D;
+        }
+
+        :root {
+            --primary: #3FA9D9;
+            --secondary: #F5A050;
+            --dark: #2D2D2D;
+            --gray: #64748B;
+            --light-gray: #F8F9FA;
+        }
+
+        nav {
+            background: white;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--dark);
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .logo img {
+            height: 50px;
+            width: auto;
+        }
+
+        .logo-large {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .logo-large img {
+            height: 200px;
+            width: auto;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+            align-items: center;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--dark);
+            font-weight: 500;
+            transition: color 0.3s;
+            cursor: pointer;
+        }
+
+        .nav-links a:hover,
+        .nav-links a.active {
+            color: var(--primary);
+        }
+
+        .btn-primary {
+            background: var(--secondary);
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: box-shadow 0.3s;
+            border: none;
+            cursor: pointer;
+            display: inline-block;
+        }
+
+        .btn-primary:hover {
+            box-shadow: 0 4px 12px rgba(245, 160, 80, 0.3);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--primary);
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            border: 2px solid var(--primary);
+            transition: all 0.3s;
+            cursor: pointer;
+            display: inline-block;
+        }
+
+        .btn-secondary:hover {
+            background: var(--primary);
+            color: white;
+        }
+
+        section {
+            padding: 5rem 2rem;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .hero {
+            background: linear-gradient(135deg, rgba(63, 169, 217, 0.08) 0%, white 100%);
+            padding: 6rem 2rem;
+        }
+
+        .hero-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            align-items: center;
+        }
+
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: var(--light-gray);
+            padding: 0.5rem 1rem;
+            border-radius: 2rem;
+            font-size: 0.9rem;
+            color: var(--gray);
+            margin-bottom: 1.5rem;
+        }
+
+        h1 {
+            font-size: 3rem;
+            line-height: 1.2;
+            margin-bottom: 1.5rem;
+            color: var(--dark);
+        }
+
+        .hero h1 .highlight {
+            color: var(--primary);
+        }
+
+        .hero p {
+            font-size: 1.1rem;
+            color: var(--gray);
+            margin-bottom: 1rem;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 1rem;
+            margin-top: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .stats {
+            background: var(--primary);
+            color: white;
+            padding: 3rem 2rem;
+        }
+
+        .stats-grid {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 3rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            font-size: 1rem;
+            opacity: 0.9;
+        }
+
+        h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: var(--dark);
+            text-align: center;
+        }
+
+        .section-intro {
+            text-align: center;
+            max-width: 800px;
+            margin: 0 auto 3rem;
+            font-size: 1.1rem;
+            color: var(--gray);
+        }
+
+        .comparison {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .comparison-card {
+            border-radius: 1rem;
+            padding: 2rem;
+        }
+
+        .comparison-card.traditional {
+            background: var(--light-gray);
+        }
+
+        .comparison-card.safai {
+            background: var(--primary);
+            color: white;
+            box-shadow: 0 4px 12px rgba(63, 169, 217, 0.3);
+        }
+
+        .comparison-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .comparison-card ul {
+            list-style: none;
+        }
+
+        .comparison-card li {
+            padding: 0.75rem 0;
+            padding-left: 1.5rem;
+            position: relative;
+        }
+
+        .comparison-card.traditional li:before {
+            content: "•";
+            position: absolute;
+            left: 0;
+        }
+
+        .comparison-card.safai li:before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            font-weight: bold;
+        }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .service-card {
+            background: white;
+            border-radius: 1rem;
+            padding: 2rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            transition: box-shadow 0.3s;
+        }
+
+        .service-card:hover {
+            box-shadow: 0 4px 16px rgba(0,0,0,0.15);
+        }
+
+        .service-icon {
+            width: 60px;
+            height: 60px;
+            background: rgba(63, 169, 217, 0.1);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1.5rem;
+            font-size: 2rem;
+        }
+
+        .service-card h3 {
+            font-size: 1.3rem;
+            margin-bottom: 1rem;
+            color: var(--dark);
+            text-align: left;
+        }
+
+        .service-card p {
+            color: var(--gray);
+            margin-bottom: 1.5rem;
+            font-size: 0.95rem;
+        }
+
+        .service-meta {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+            font-size: 0.9rem;
+        }
+
+        .price {
+            color: var(--primary);
+            font-weight: bold;
+            font-size: 1rem;
+        }
+
+        .why-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+        }
+
+        .why-item {
+            text-align: center;
+        }
+
+        .why-icon {
+            width: 70px;
+            height: 70px;
+            background: rgba(245, 160, 80, 0.1);
+            border-radius: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.5rem;
+            font-size: 2rem;
+        }
+
+        .why-item h3 {
+            font-size: 1.1rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .why-item p {
+            color: var(--gray);
+            font-size: 0.95rem;
+        }
+
+        .cta-section {
+            background: linear-gradient(135deg, var(--primary) 0%, rgba(63, 169, 217, 0.9) 100%);
+            color: white;
+            text-align: center;
+            padding: 4rem 2rem;
+        }
+
+        .cta-section h2 {
+            color: white;
+            margin-bottom: 1rem;
+        }
+
+        .cta-section p {
+            font-size: 1.1rem;
+            margin-bottom: 2rem;
+            opacity: 0.95;
+        }
+
+        .cta-content {
+            display: flex;
+            gap: 1.5rem;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        footer {
+            background: var(--dark);
+            color: white;
+            padding: 3rem 2rem;
+        }
+
+        .footer-grid {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .footer-grid h4 {
+            margin-bottom: 1rem;
+            font-size: 1rem;
+        }
+
+        .footer-grid ul {
+            list-style: none;
+        }
+
+        .footer-grid a {
+            color: rgba(255,255,255,0.75);
+            text-decoration: none;
+            font-size: 0.9rem;
+            line-height: 2;
+            cursor: pointer;
+        }
+
+        .footer-grid a:hover {
+            color: white;
+        }
+
+        .footer-bottom {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            text-align: center;
+            font-size: 0.9rem;
+            opacity: 0.75;
+        }
+
+        .page {
+            display: none;
+        }
+
+        .page.active {
+            display: block;
+        }
+
+        .bg-light {
+            background: var(--light-gray);
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: var(--dark);
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 0.75rem;
+            border: 2px solid var(--light-gray);
+            border-radius: 8px;
+            font-family: inherit;
+            font-size: 1rem;
+        }
+
+        .form-group textarea {
+            resize: vertical;
+        }
+
+        .contact-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 3rem;
+        }
+
+        .contact-card {
+            background: white;
+            border-radius: 1rem;
+            padding: 2rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            margin-bottom: 1.5rem;
+        }
+
+        .highlight-box {
+            background: rgba(245, 160, 80, 0.1);
+            padding: 1rem;
+            border-radius: 8px;
+            margin: 1rem 0;
+        }
+
+        @media (max-width: 968px) {
+            h1 {
+                font-size: 2rem;
+            }
+            .nav-links {
+                display: none;
+            }
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+            .hero-content {
+                grid-template-columns: 1fr;
+            }
+            .hero-content .logo-large {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav>
+        <div class="nav-container">
+            <div class="logo" onclick="showPage('home')">
+                <img src="safai-logo.png" alt="Safai AI Logo">
+                <span>SAFAI</span>
+            </div>
+            <ul class="nav-links">
+                <li><a onclick="showPage('home')" id="nav-home" class="active">Home</a></li>
+                <li><a onclick="showPage('services')" id="nav-services">Services</a></li>
+                <li><a onclick="showPage('about')" id="nav-about">About</a></li>
+                <li><a onclick="showPage('contact')" id="nav-contact">Contact</a></li>
+                <li><a onclick="showPage('contact')" class="btn-primary">Schedule Consultation</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- HOME PAGE -->
+    <div id="page-home" class="page active">
+        <!-- Hero Section -->
+        <section class="hero">
+            <div class="hero-content">
+                <div>
+                    <div class="badge">
+                        🏆 Informed by 2026 UNESCO AI Safety Conference
+                    </div>
+                    <h1>Systems Safety Engineering for <span class="highlight">AI & Autonomous Systems</span></h1>
+                    <p>We don't just audit AI. We apply the same rigorous safety methodologies that keep aircraft flying, nuclear reactors safe, and critical infrastructure operational.</p>
+                    <p><strong>20+ years</strong> preventing catastrophic failures in high-stakes systems. Now applied to AI deployment.</p>
+                    <div class="cta-buttons">
+                        <a onclick="showPage('contact')" class="btn-primary">Schedule Safety Assessment →</a>
+                        <a onclick="showPage('services')" class="btn-secondary">Our Methodology</a>
+                    </div>
+                </div>
+                <div class="logo-large">
+                    <img src="safai-logo.png" alt="Safai AI Logo">
+                </div>
+            </div>
+        </section>
+
+        <!-- Stats Bar -->
+        <section class="stats">
+            <div class="stats-grid">
+                <div>
+                    <div class="stat-number">88%</div>
+                    <div class="stat-label">Organizations Report AI Security Incidents</div>
+                </div>
+                <div>
+                    <div class="stat-number">14.4%</div>
+                    <div class="stat-label">Deploy AI with Proper Security Approval</div>
+                </div>
+                <div>
+                    <div class="stat-number">Aug 2026</div>
+                    <div class="stat-label">EU AI Act Full Enforcement Begins</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Problem Section -->
+        <section>
+            <div class="container">
+                <h2>AI Needs Engineering Rigor, Not Just Policy Frameworks</h2>
+                <p class="section-intro">Companies are deploying AI systems faster than they can ensure safety. EU AI Act enforcement begins August 2026. Regulators demand third-party validation. Traditional testing doesn't work for AI.</p>
+                
+                <div class="comparison">
+                    <div class="comparison-card traditional">
+                        <h3>Traditional AI Auditing</h3>
+                        <ul>
+                            <li>Document review</li>
+                            <li>Compliance checklists</li>
+                            <li>Bias testing</li>
+                            <li>Policy assessment</li>
+                            <li>General recommendations</li>
+                        </ul>
+                    </div>
+                    <div class="comparison-card safai">
+                        <h3>Safai AI Systems Safety</h3>
+                        <ul>
+                            <li>Hazard analysis (FMEA, FTA)</li>
+                            <li>Failure mode analysis</li>
+                            <li>Safety constraints definition</li>
+                            <li>Verification & validation</li>
+                            <li>Engineering-grade safety case</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <p style="text-align: center; margin-top: 2rem; font-size: 1.1rem; font-weight: 600;">The same discipline that prevents aircraft crashes. Applied to your AI deployment.</p>
+            </div>
+        </section>
+
+        <!-- Services Overview -->
+        <section class="bg-light">
+            <div class="container">
+                <h2>Our Services</h2>
+                <p class="section-intro">Aerospace-grade safety engineering for AI systems</p>
+                
+                <div class="services-grid">
+                    <div class="service-card">
+                        <div class="service-icon">🛡️</div>
+                        <h3>AI Systems Safety Assessment</h3>
+                        <p>Comprehensive evaluation combining ISO 42001 compliance with rigorous robustness testing using aerospace methodologies</p>
+                        <div class="service-meta">
+                            <div>⏱️ 4-6 weeks</div>
+                            <div class="price">$75,000 - $150,000</div>
+                        </div>
+                        <a onclick="showPage('services')" class="btn-secondary" style="width: 100%; text-align: center;">Learn More →</a>
+                    </div>
+                    
+                    <div class="service-card">
+                        <div class="service-icon">⚡</div>
+                        <h3>Autonomous Systems Evaluation</h3>
+                        <p>Specialized testing for AI agents, robotics, and autonomous vehicles. Physical safety + AI safety combined.</p>
+                        <div class="service-meta">
+                            <div>⏱️ 6-8 weeks</div>
+                            <div class="price">$100,000 - $250,000</div>
+                        </div>
+                        <a onclick="showPage('services')" class="btn-secondary" style="width: 100%; text-align: center;">Learn More →</a>
+                    </div>
+                    
+                    <div class="service-card">
+                        <div class="service-icon">✓</div>
+                        <h3>EU AI Act Compliance</h3>
+                        <p>Third-party conformity assessment and safety certification for EU market requirements</p>
+                        <div class="service-meta">
+                            <div>⏱️ 4-8 weeks</div>
+                            <div class="price">$75,000 - $300,000</div>
+                        </div>
+                        <a onclick="showPage('services')" class="btn-secondary" style="width: 100%; text-align: center;">Learn More →</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Why Safai AI -->
+        <section>
+            <div class="container">
+                <h2>Why Safai AI</h2>
+                <div class="why-grid">
+                    <div class="why-item">
+                        <div class="why-icon">👥</div>
+                        <h3>Systems Safety Expertise</h3>
+                        <p>20+ years in aerospace, robotics, and critical infrastructure</p>
+                    </div>
+                    <div class="why-item">
+                        <div class="why-icon">🏆</div>
+                        <h3>Independent Third-Party</h3>
+                        <p>Unbiased assessments with regulatory credibility</p>
+                    </div>
+                    <div class="why-item">
+                        <div class="why-icon">🛡️</div>
+                        <h3>Research-Informed</h3>
+                        <p>Frameworks from Bengio, Russell, and Hinton</p>
+                    </div>
+                    <div class="why-item">
+                        <div class="why-icon">⚡</div>
+                        <h3>Rapid Deployment</h3>
+                        <p>4-6 week delivery with actionable roadmaps</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Final CTA -->
+        <section class="cta-section">
+            <div class="container">
+                <h2>Ready to Ensure AI Safety Before Deployment?</h2>
+                <p>Schedule a free 30-minute consultation to discuss your AI safety needs.</p>
+                <div class="cta-content">
+                    <a onclick="showPage('contact')" class="btn-primary">Schedule Consultation</a>
+                    <a href="mailto:rudy.rodriguez@safai.ai" style="color: white; text-decoration: none; font-weight: 500;">📧 rudy.rodriguez@safai.ai</a>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- SERVICES PAGE -->
+    <div id="page-services" class="page">
+        <section style="padding-top: 4rem;">
+            <div class="container">
+                <h2>Our Services</h2>
+                <p class="section-intro">Comprehensive AI safety assessments using proven systems safety engineering methodologies from aerospace and critical infrastructure.</p>
+
+                <div class="service-card" style="margin-bottom: 3rem;">
+                    <div style="display: flex; gap: 1.5rem; align-items: start; margin-bottom: 1.5rem;">
+                        <div class="service-icon">🛡️</div>
+                        <div>
+                            <h3 style="text-align: left;">AI Systems Safety Assessment</h3>
+                            <div style="display: flex; gap: 1rem; margin-top: 0.5rem; flex-wrap: wrap;">
+                                <span style="background: rgba(63, 169, 217, 0.1); color: var(--primary); padding: 0.25rem 0.75rem; border-radius: 1rem; font-size: 0.9rem; font-weight: 600;">$75,000 - $150,000</span>
+                                <span style="background: var(--light-gray); color: var(--gray); padding: 0.25rem 0.75rem; border-radius: 1rem; font-size: 0.9rem;">4-6 weeks</span>
+                            </div>
+                        </div>
+                    </div>
+                    <p>Comprehensive safety evaluation combining ISO 42001 compliance with rigorous robustness testing using aerospace methodologies. Not just checking boxes - engineering-grade safety assurance.</p>
+                    
+                    <h4 style="margin-top: 1.5rem; margin-bottom: 1rem; color: var(--dark);">What's Included:</h4>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1rem;">
+                        <div class="highlight-box">✓ Hazard Identification</div>
+                        <div class="highlight-box">✓ Failure Mode & Effects Analysis</div>
+                        <div class="highlight-box">✓ Fault Tree Analysis</div>
+                        <div class="highlight-box">✓ Safety Constraints Definition</div>
+                        <div class="highlight-box">✓ Verification Testing</div>
+                        <div class="highlight-box">✓ Safety Case Development</div>
+                    </div>
+                </div>
+
+                <div class="service-card" style="margin-bottom: 3rem;">
+                    <div style="display: flex; gap: 1.5rem; align-items: start; margin-bottom: 1.5rem;">
+                        <div class="service-icon">⚡</div>
+                        <div>
+                            <h3 style="text-align: left;">Autonomous Systems Evaluation</h3>
+                            <div style="display: flex; gap: 1rem; margin-top: 0.5rem; flex-wrap: wrap;">
+                                <span style="background: rgba(245, 160, 80, 0.1); color: var(--secondary); padding: 0.25rem 0.75rem; border-radius: 1rem; font-size: 0.9rem; font-weight: 600;">$100,000 - $250,000</span>
+                                <span style="background: var(--light-gray); color: var(--gray); padding: 0.25rem 0.75rem; border-radius: 1rem; font-size: 0.9rem;">6-8 weeks</span>
+                            </div>
+                        </div>
+                    </div>
+                    <p>Specialized testing for AI agents, robotics, autonomous vehicles, and drones. Combines physical safety engineering with AI safety - a unique capability requiring both robotics and AI expertise.</p>
+                </div>
+
+                <div class="service-card" style="margin-bottom: 3rem;">
+                    <div style="display: flex; gap: 1.5rem; align-items: start; margin-bottom: 1.5rem;">
+                        <div class="service-icon">✓</div>
+                        <div>
+                            <h3 style="text-align: left;">EU AI Act Compliance</h3>
+                            <div style="display: flex; gap: 1rem; margin-top: 0.5rem; flex-wrap: wrap;">
+                                <span style="background: rgba(63, 169, 217, 0.1); color: var(--primary); padding: 0.25rem 0.75rem; border-radius: 1rem; font-size: 0.9rem; font-weight: 600;">$75,000 - $300,000</span>
+                                <span style="background: var(--light-gray); color: var(--gray); padding: 0.25rem 0.75rem; border-radius: 1rem; font-size: 0.9rem;">4-8 weeks</span>
+                            </div>
+                        </div>
+                    </div>
+                    <p>Third-party conformity assessment for EU AI Act compliance. Full enforcement begins August 2, 2026. Fines up to €35M or 7% of global revenue. We provide the independent certification regulators require.</p>
+                    
+                    <div class="highlight-box" style="background: rgba(245, 160, 80, 0.1); margin-top: 1rem;">
+                        <strong>⚠️ EU AI Act full enforcement: August 2, 2026 | Maximum fines: €35M or 7% global revenue</strong>
+                    </div>
+                </div>
+
+                <div style="background: var(--primary); color: white; padding: 3rem; border-radius: 1rem; text-align: center;">
+                    <h3 style="color: white; font-size: 2rem; margin-bottom: 1.5rem;">Ready to Get Started?</h3>
+                    <a onclick="showPage('contact')" class="btn-primary">Schedule Your Safety Assessment</a>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- ABOUT PAGE -->
+    <div id="page-about" class="page">
+        <section style="padding-top: 4rem;">
+            <div class="container">
+                <h2>From Aerospace to AI</h2>
+                <p class="section-intro">Safai AI was founded by systems safety engineers with 20+ years preventing catastrophic failures in high-stakes environments.</p>
+
+                <div style="margin-bottom: 3rem;">
+                    <h3 style="font-size: 2rem; margin-bottom: 1.5rem; text-align: center;">Our Background</h3>
+                    <p style="color: var(--gray); margin-bottom: 1.5rem; text-align: center; max-width: 800px; margin-left: auto; margin-right: auto;">We've seen what rigorous safety engineering looks like when failure is not an option. Now we're applying these proven methodologies to AI and autonomous systems.</p>
+                    
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1rem; margin-top: 2rem;">
+                        <div class="highlight-box">
+                            <strong>Aerospace Systems</strong><br>
+                            <span style="color: var(--gray); font-size: 0.9rem;">NASA, aviation safety, flight control systems</span>
+                        </div>
+                        <div class="highlight-box">
+                            <strong>Automotive Safety</strong><br>
+                            <span style="color: var(--gray); font-size: 0.9rem;">Ford, autonomous vehicle development</span>
+                        </div>
+                        <div class="highlight-box">
+                            <strong>Critical Infrastructure</strong><br>
+                            <span style="color: var(--gray); font-size: 0.9rem;">Energy sector, power systems, SCADA security</span>
+                        </div>
+                        <div class="highlight-box">
+                            <strong>Advanced Robotics</strong><br>
+                            <span style="color: var(--gray); font-size: 0.9rem;">DARPA projects, MIT research, industrial automation</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div style="background: linear-gradient(135deg, rgba(63, 169, 217, 0.1) 0%, rgba(245, 160, 80, 0.1) 100%); padding: 3rem; border-radius: 1rem; margin-bottom: 3rem;">
+                    <h3 style="font-size: 2rem; margin-bottom: 1.5rem; text-align: center;">Why Safai AI Exists</h3>
+                    <p style="text-align: center; max-width: 800px; margin: 0 auto; font-size: 1.1rem; color: var(--gray);">
+                        AI deployment requires the same safety discipline that keeps aircraft flying safely. Companies are deploying AI at the pace of software but with the stakes of aerospace. We bridge the gap between AI capability and safety infrastructure.
+                    </p>
+                </div>
+
+                <div style="background: var(--primary); color: white; padding: 3rem; border-radius: 1rem;">
+                    <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1.5rem; flex-wrap: wrap;">
+                        <div style="font-size: 2rem;">🏆</div>
+                        <div>
+                            <h3 style="color: white; font-size: 1.5rem; margin-bottom: 0.25rem;">2026 UNESCO AI Safety Conference</h3>
+                            <p style="opacity: 0.9;">Paris, France - February 2026</p>
+                        </div>
+                    </div>
+                    <p style="margin-bottom: 1.5rem;">Our methodology is informed by frameworks presented at the International AI Safety Conference, where we engaged with leading researchers on practical AI safety implementation.</p>
+                    
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem;">
+                        <div style="background: rgba(255,255,255,0.1); padding: 1rem; border-radius: 0.5rem;">
+                            <strong>Dr. Yoshua Bengio</strong><br>
+                            <small>2026 International AI Safety Report</small>
+                        </div>
+                        <div style="background: rgba(255,255,255,0.1); padding: 1rem; border-radius: 0.5rem;">
+                            <strong>Dr. Stuart Russell</strong><br>
+                            <small>Behavioral Red Lines Framework</small>
+                        </div>
+                        <div style="background: rgba(255,255,255,0.1); padding: 1rem; border-radius: 0.5rem;">
+                            <strong>Dr. Geoffrey Hinton</strong><br>
+                            <small>AI Risk Assessment</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- CONTACT PAGE -->
+    <div id="page-contact" class="page">
+        <section style="padding-top: 4rem;">
+            <div class="container">
+                <h2>Let's Discuss Your AI Safety Needs</h2>
+                <p class="section-intro">Schedule a free 30-minute consultation or send us a message. We'll respond within 24 hours.</p>
+
+                <div class="contact-grid">
+                    <div class="contact-card">
+                        <h3 style="margin-bottom: 1.5rem;">Send Us a Message</h3>
+                        <form>
+                            <div class="form-group">
+                                <label>Name *</label>
+                                <input type="text" placeholder="Your name" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Email *</label>
+                                <input type="email" placeholder="your.email@company.com" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Company</label>
+                                <input type="text" placeholder="Your company name">
+                            </div>
+                            <div class="form-group">
+                                <label>Message *</label>
+                                <textarea rows="5" placeholder="Tell us about your AI safety needs..." required></textarea>
+                            </div>
+                            <button type="submit" class="btn-primary" style="width: 100%;">Send Message</button>
+                        </form>
+                    </div>
+
+                    <div>
+                        <div class="contact-card">
+                            <h3 style="margin-bottom: 1.5rem;">Direct Contact</h3>
+                            
+                            <div style="margin-bottom: 2rem;">
+                                <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 0.5rem;">
+                                    <span style="font-size: 1.5rem;">📧</span>
+                                    <strong>Email</strong>
+                                </div>
+                                <a href="mailto:rudy.rodriguez@safai.ai" style="color: var(--primary); text-decoration: none; margin-left: 2.5rem;">rudy.rodriguez@safai.ai</a>
+                            </div>
+
+                            <div>
+                                <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 0.5rem;">
+                                    <span style="font-size: 1.5rem;">📅</span>
+                                    <strong>Schedule a Call</strong>
+                                </div>
+                                <p style="color: var(--gray); font-size: 0.9rem; margin: 0.5rem 0 1rem 2.5rem;">Free 30-minute consultation</p>
+                                <button class="btn-primary" style="margin-left: 2.5rem;">Schedule via Calendly</button>
+                            </div>
+                        </div>
+
+                        <div style="background: var(--primary); color: white; padding: 2rem; border-radius: 1rem; margin-bottom: 1.5rem;">
+                            <h3 style="color: white; margin-bottom: 1rem;">Safai AI LLC</h3>
+                            <p style="margin-bottom: 1rem; opacity: 0.9;">Delaware-registered Limited Liability Company</p>
+                            <p style="opacity: 0.9; font-size: 0.95rem;">Providing systems safety engineering services for AI and autonomous systems deployment.</p>
+                        </div>
+
+                        <div class="contact-card">
+                            <h4 style="margin-bottom: 0.75rem;">Typical Response Time</h4>
+                            <p style="color: var(--gray); font-size: 0.95rem;">We respond to all inquiries within <strong>24 hours</strong> on business days. For urgent safety concerns, please mention "URGENT" in your subject line.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-grid">
+            <div>
+                <div style="font-size: 1.5rem; font-weight: bold; margin-bottom: 1rem;">SAFAI</div>
+                <p style="opacity: 0.75; font-size: 0.9rem;">Systems Safety Engineering for AI & Autonomous Systems</p>
+            </div>
+            <div>
+                <h4>Services</h4>
+                <ul>
+                    <li><a onclick="showPage('services')">AI Systems Safety</a></li>
+                    <li><a onclick="showPage('services')">Autonomous Systems</a></li>
+                    <li><a onclick="showPage('services')">EU AI Act Compliance</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4>Company</h4>
+                <ul>
+                    <li><a onclick="showPage('about')">About Us</a></li>
+                    <li><a onclick="showPage('contact')">Contact</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4>Contact</h4>
+                <p style="opacity: 0.75; font-size: 0.9rem;">rudy.rodriguez@safai.ai</p>
+                <p style="opacity: 0.75; font-size: 0.9rem;">Delaware LLC</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>© 2026 Safai AI LLC. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        function showPage(pageName) {
+            document.querySelectorAll('.page').forEach(page => {
+                page.classList.remove('active');
+            });
+            document.getElementById('page-' + pageName).classList.add('active');
+            document.querySelectorAll('.nav-links a').forEach(link => {
+                link.classList.remove('active');
+            });
+            var navLink = document.getElementById('nav-' + pageName);
+            if (navLink) {
+                navLink.classList.add('active');
+            }
+            window.scrollTo(0, 0);
+            return false;
+        }
+    </script>
+</body>
+</html>
